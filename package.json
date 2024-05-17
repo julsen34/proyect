@@ -1,0 +1,17 @@
+{
+    "name": "app-para-administrar-plantas",
+    "version": "0.1.0",
+    "description": "Descripción del proyecto",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "author": "julian",
+    "license": "MIT",
+    "dependencies": {
+      "express": "^4.17.1",
+      "mongoose": "^5.12.12"
+    }
+  }
+  
+  
