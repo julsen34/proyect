@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Respuestas IA</title>
+  <title>Procesador de Imágenes</title>
   <link href="../proyect/style/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -20,22 +20,22 @@
   </header>
   <main>
     <section>
-      <h2>Respuestas IA</h2>
-      <p>A continuación se muestran las respuestas generadas por la inteligencia artificial para las imágenes analizadas:</p>
-      <div class="respuesta">
-        <h3>Respuesta para Imagen 1</h3>
-        <p>La imagen muestra un crecimiento saludable. Se recomienda mantener las condiciones actuales.</p>
-      </div>
-      <div class="respuesta">
-        <h3>Respuesta para Imagen 2</h3>
-        <p>Se detecta un nivel bajo de humedad en el suelo. Se recomienda regar la planta.</p>
-      </div>
+      <h2>Procesador de Imágenes</h2>
+      <p>En esta sección puedes cargar y procesar imágenes de tus plantas para realizar análisis detallados.</p>
+      <form id="uploadForm" action="#" method="post" enctype="multipart/form-data">
+        <input type="file" name="imagen" id="imagen" accept="image/*">
+        <button type="submit">Procesar Imagen</button>
+      </form>
+      <div id="imagePreview"></div>
+      <div id="responseContainer"></div>
+      <div id="imageHistory"></div>
     </section>
   </main>
   <footer>
     <p>&copy; 2024 Análisis de Imágenes para el Crecimiento de Plantas</p>
   </footer>
-  <script src="../proyect/src/aiResponses.js"></script>
+  <script type="module" src="../proyect/src/imageProcessor.js"></script>
 </body>
 </html>
+
 

@@ -1,7 +1,6 @@
-export function generateResponse(analysisResult) {
-    if (analysisResult.health === "Saludable") {
-        return "La imagen muestra un crecimiento saludable. Se recomienda mantener las condiciones actuales.";
-    } else {
-        return "Se detecta un problema con la planta. Por favor, revise las recomendaciones específicas.";
-    }
+export async function generateResponse(file) {
+    console.log("Generando respuesta para la imagen", file);
+    // Simulación de una respuesta generada por IA
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return "La imagen muestra un crecimiento saludable. Continúa con el buen trabajo!";
 }
