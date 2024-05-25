@@ -1,20 +1,37 @@
-export async function processImage(file) {
-    console.log("Procesando imagen", file);
-    // Simulación del análisis de la imagen
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const response = await generateResponse(file);
-    saveImageToHistory(URL.createObjectURL(file));
-    displayResponse(response);
-}
+// imageProcessor.js
 
-function saveImageToHistory(imageUrl) {
-    const imageHistory = JSON.parse(localStorage.getItem('imageHistory')) || [];
-    imageHistory.push(imageUrl);
-    localStorage.setItem('imageHistory', JSON.stringify(imageHistory));
-}
+const processImage = (imageFile) => {
+  // Perform image processing tasks here
+  // This is a placeholder function, replace it with your actual image processing logic
 
-function displayResponse(response) {
-    const responseContainer = document.querySelector('#responseContainer');
-    responseContainer.innerHTML = `<p>${response}</p>`;
-}
+  // For now, let's assume that the processing is successful and return a response
+  return {
+    success: true,
+    message: 'Imagen procesada correctamente',
+    data: {
+      analysis: 'Análisis detallado de la imagen procesada'
+    }
+  };
+};
 
+// Event listener for form submission
+document.getElementById('uploadForm').addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  // Get the selected image file
+  const imageFile = document.getElementById('imagen').files[0];
+
+  // Process the image
+  processImage(imageFile)
+    .then((response) => {
+      // Display the response in the response container
+      document.getElementById('responseContainer').innerHTML = `
+        <p>${response.message}</p>
+        <p>${response.data.analysis}</p>
+      `;
+    })
+    .catch((error) => {
+      // Display the error message in the response container
+      document.getElementById('responseContainer').innerHTML = `<p>Error: ${error.message}</p>`;
+    });
+});
