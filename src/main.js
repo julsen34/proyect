@@ -1,4 +1,6 @@
-import { processImage } from './imageProcessor.js';
+//main.js
+
+import { generateResponse } from './aiResponses.js';
 import { generateResponse } from './aiResponses.js';
 
 document.addEventListener('DOMContentLoaded', () => {

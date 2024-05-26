@@ -1,6 +1,8 @@
+//app.js
+
 import express from 'express';
 import mongoose from 'mongoose';
-import { ImageHistory, upload } from './models/imageHistory.js';
+import { ImageHistory, upload, createImageHistory } from './models/imageHistory.js';
 
 const app = express();
 const port = 5000;
@@ -20,7 +22,7 @@ mongoose.connect('mongodb://localhost:27017/plant-db', { useNewUrlParser: true, 
 
 app.get('/api/history', async (req, res) => {
   try {
-    const history = await ImageHistory.find();
+    const history = await ImageHistory.find().exec();
     res.json(history);
   } catch (error) {
     res.status(500).send(error);
@@ -39,14 +41,7 @@ app.post('/api/history', async (req, res) => {
 
 app.post('/upload', upload.single('image'), async (req, res) => {
   try {
-    const file = req.file;
-    const imageHistory = new ImageHistory({
-      imageSrc: `/images/${file.filename}`,
-      response: '',
-      date: new Date().toISOString()
-    });
-    await imageHistory.save();
-    res.redirect('/image-history');
+    await createImageHistory(req, res);
   } catch (error) {
     console.error(error);
     res.status(500).send(error);

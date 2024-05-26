@@ -1,34 +1,48 @@
 //imageHistory.js
 
 import mongoose from 'mongoose';
+import express from 'express';
 import multer from 'multer';
 
+// conectar con MongoDB
+const connect = () => {
+  return mongoose.connect('mongodb://localhost:27017/proyect/image-history', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+};
+
+// Define el esquema de ImageHistory
 const imageHistorySchema = new mongoose.Schema({
-  filename: String,
-  url: String,
+  imageSrc: String,
+  response: String,
   date: Date
 });
 
+// modelo de imageHistory
 const ImageHistory = mongoose.model('ImageHistory', imageHistorySchema);
 
-const upload = multer({ dest: 'uploads/' });
+// multer
+const upload = multer({ dest: '/Users/fuerz/proyect/uploads' });
 
-export const createImageHistory = async (req, res) => {
+// Define la función createImageHistory
+const createImageHistory = async (req, res) => {
   // Get the uploaded image file
   const file = req.file;
 
-  // Create a new ImageHistory document
+  // Crear un nuevo documento de ImageHistory
   const imageHistory = new ImageHistory({
-    filename: file.filename,
-    url: `http://localhost:3000/uploads/${file.filename}`,
+    imageSrc: `/Users/fuerz/proyect/images/${file.filename}`,
+    response: '',
     date: new Date().toISOString()
   });
 
-  // Save the ImageHistory document
+  // Guardar el documento de ImageHistory
   await imageHistory.save();
 
-  // Redirect to the image history page
-  res.redirect('/image-history');
+  // Redirigir a la página de historial de imágenes
+  res.redirect('../proyect/historialDeImagenes.html');
 };
 
-export { ImageHistory, upload };
+// Exporta el modelo ImageHistory, la instancia de Multer y la función createImageHistory
+export { ImageHistory, upload, createImageHistory };

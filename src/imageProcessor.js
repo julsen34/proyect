@@ -1,10 +1,8 @@
 // imageProcessor.js
 
 const processImage = (imageFile) => {
-  // Perform image processing tasks here
-  // This is a placeholder function, replace it with your actual image processing logic
 
-  // For now, let's assume that the processing is successful and return a response
+// Por ahora, supongamos que el procesamiento es exitoso y devolvemos una respuesta
   return {
     success: true,
     message: 'Imagen procesada correctamente',
@@ -14,14 +12,14 @@ const processImage = (imageFile) => {
   };
 };
 
-// Event listener for form submission
+// lista de eventos para el envío de formularios
 document.getElementById('uploadForm').addEventListener('submit', (event) => {
   event.preventDefault();
 
-  // Get the selected image file
+  // Obtener el archivo de imagen seleccionado
   const imageFile = document.getElementById('imagen').files[0];
 
-  // Process the image
+  // Procesar la imagen
   processImage(imageFile)
     .then((response) => {
       // Display the response in the response container
@@ -31,7 +29,7 @@ document.getElementById('uploadForm').addEventListener('submit', (event) => {
       `;
     })
     .catch((error) => {
-      // Display the error message in the response container
+      // Mostrar el mensaje de error en el contenedor de respuestas
       document.getElementById('responseContainer').innerHTML = `<p>Error: ${error.message}</p>`;
     });
 });
