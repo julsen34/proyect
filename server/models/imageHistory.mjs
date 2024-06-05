@@ -1,10 +1,9 @@
 //imageHistory.js
 
 import mongoose from 'mongoose';
-import express from 'express';
 import multer from 'multer';
 
-// conectar con MongoDB
+// Conectar con MongoDB
 const connect = () => {
   return mongoose.connect('mongodb://localhost:27017/proyect/image-history', {
     useNewUrlParser: true,
@@ -19,15 +18,15 @@ const imageHistorySchema = new mongoose.Schema({
   date: Date
 });
 
-// modelo de imageHistory
+// Modelo de ImageHistory
 const ImageHistory = mongoose.model('ImageHistory', imageHistorySchema);
 
-// multer
+// Multer
 const upload = multer({ dest: '/Users/fuerz/proyect/uploads' });
 
 // Define la función createImageHistory
 const createImageHistory = async (req, res) => {
-  // Get the uploaded image file
+  // Obtener el archivo de imagen subido
   const file = req.file;
 
   // Crear un nuevo documento de ImageHistory

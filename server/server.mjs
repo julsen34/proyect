@@ -1,10 +1,9 @@
-//server.js
+import express from 'express';
+import { ImageHistory, upload, createImageHistory } from './models/imageHistory.mjs';
+import { fileURL } from './utils.mjs';
+import { getResponse } from './aiResponses.mjs';
 
-const express = require('express');
 const app = express();
-const { ImageHistory, upload, createImageHistory } = require('./models/imageHistory');
-const { fileURL } = require('./utils');
-const { getResponse } = require('../aiResponses');
 
 app.use(express.static('public'));
 

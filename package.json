@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Aplicación para administrar el crecimiento de plantas utilizando análisis de imágenes",
-  "main": "server/app.js",
+  "main": "server/app.mjs",
   "scripts": {
-    "start": "node server/app.js"
+    "start": "node server/app.mjs"
   },
   "author": "Julian Hernandez",
   "license": "MIT",
