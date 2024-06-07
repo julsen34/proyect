@@ -1,11 +1,11 @@
-// aiModel.js
+// aiModel.mjs
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const generateResponse = require('./aiResponses');
+import express from 'express';
+import { json } from 'body-parser';
+import generateResponse from '/Users/fuerz/proyect/public/src/aiResponses.mjs';
 
 const app = express();
-app.use(bodyParser.json());
+app.use(json());
 
 app.post('/ai/analyze', async (req, res) => {
   const { fileUrl } = req.body;

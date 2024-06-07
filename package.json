@@ -1,5 +1,6 @@
 {
   "name": "app-para-administrar-plantas",
+  "runtimeArgs": ["--experimental-modules"],
   "version": "0.1.0",
   "type": "module",
   "description": "Aplicación para administrar el crecimiento de plantas utilizando análisis de imágenes",
@@ -13,5 +14,12 @@
     "express": "^4.19.2",
     "mongoose": "^5.13.22",
     "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^1.0.3",
+    "@eslint/js": "^9.4.0",
+    "eslint": "^9.4.0",
+    "eslint-plugin-react": "^7.34.2",
+    "globals": "^15.4.0"
   }
 }

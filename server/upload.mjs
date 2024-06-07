@@ -4,7 +4,7 @@
 import upload from './upload.mjs';
 
 // Definir el controlador de ruta para las cargas de imágenes
-app.post('/upload', upload.single('image'), async (req, res) => {
+app.post('/upload.mjs', upload.single('image'), async (req, res) => {
   // Get the uploaded image file
   const file = req.file;
 
@@ -16,8 +16,8 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   });
 
   // Guardar el documento de historial de imágenes
-  await imageHistory.save('./models/imageHistory.js');
+  await imageHistory.save('/server/models/imageHistory.mjs');
 
   // Redirigir a la página de historial de imágenes
-  res.redirect('/image-history');
+  res.redirect('\Users\fuerz\proyect\public\historialdeimagenes.html');
 });

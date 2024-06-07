@@ -1,8 +1,8 @@
-//app.js
+//app.mjs
 
 import express from 'express';
 import mongoose from 'mongoose';
-import { ImageHistory, upload, createImageHistory } from './models/imageHistory.js';
+import { ImageHistory, upload, createImageHistory } from './models/imageHistory.mjs';
 
 const app = express();
 const port = 5000;
@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/plant-db', { useNewUrlParser: true, 
     console.error('Error al conectar con la base de datos MongoDB:', error);
   });
 
-app.get('/api/history', async (req, res) => {
+app.get('./api/history', async (req, res) => {
   try {
     const history = await ImageHistory.find().exec();
     res.json(history);
@@ -29,7 +29,7 @@ app.get('/api/history', async (req, res) => {
   }
 });
 
-app.post('/api/history', async (req, res) => {
+app.post('./api/history', async (req, res) => {
   try {
     const newEntry = new ImageHistory(req.body);
     await newEntry.save();

@@ -1,11 +1,14 @@
+// server.mjs
+
 import express from 'express';
 import { ImageHistory, upload, createImageHistory } from './models/imageHistory.mjs';
 import { fileURL } from './utils.mjs';
-import { getResponse } from './aiResponses.mjs';
+import { getResponse } from '/Users/fuerz/proyect/public/src/aiResponses.mjs';
 
 const app = express();
 
 app.use(express.static('public'));
+app.use(express.json()); // Asegúrate de manejar JSON
 
 app.post('/upload', upload.single('image'), async (req, res) => {
   const file = req.file;
