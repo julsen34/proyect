@@ -2,7 +2,6 @@
 
 import express from 'express';
 import { json } from 'body-parser';
-import generateResponse from '/Users/fuerz/proyect/public/src/aiResponses.mjs';
 
 const app = express();
 app.use(json());
@@ -37,3 +36,4 @@ async function loadImage(fileUrl) {
 app.listen(3001, () => {
   console.log('Modelo AI corriendo en el puerto 3001');
 });
+

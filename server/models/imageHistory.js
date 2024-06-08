@@ -1,30 +1,15 @@
-
-// models/imageHistory.mjs
+// imageHistory.mjs
 
 import mongoose from 'mongoose';
 import multer from 'multer';
 
-const connect = async () => {
-  try {
-    await mongoose.connect('mongodb://localhost:27017/proyect/image-history', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
-  }
-};
-
-connect();
- 
 const imageHistorySchema = new mongoose.Schema({
   imageSrc: String,
   response: String,
   date: { type: Date, default: Date.now }
 });
 
-const ImageHistory = mongoose.model('ImageHistory', imageHistorySchema);
+const ImageHistory = mongoose.model('imageHistory', imageHistorySchema);
 
 const upload = multer({ dest: 'public/uploads/' });
 
@@ -41,8 +26,8 @@ const createImageHistory = async (req, res) => {
     await imageHistory.save();
     res.redirect('historialDeImagenes.html');
   } catch (error) {
-    console.error("Error saving image history:", error);
-    res.status(500).send("Internal Server Error");
+    console.error('Error al guardar el historial de imágenes:', error);
+    res.status(500).send('Error interno del servidor');
   }
 };
 

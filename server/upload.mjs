@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 //upload.js
 
 // Importar el middleware de carga (subida)
@@ -9,7 +10,7 @@ app.post('/upload.mjs', upload.single('image'), async (req, res) => {
   const file = req.file;
 
   // Crear un nuevo documento de historial de imágenes
-  const imageHistory = new ImageHistory({
+  const imageHistory = new imageHistory({
     imageSrc: `./images/${file.filename}`,
     response: '',
     date: new Date().toISOString()
@@ -19,5 +20,5 @@ app.post('/upload.mjs', upload.single('image'), async (req, res) => {
   await imageHistory.save('/server/models/imageHistory.mjs');
 
   // Redirigir a la página de historial de imágenes
-  res.redirect('\Users\fuerz\proyect\public\historialdeimagenes.html');
+  res.redirect('historialdeimagenes.html');
 });
