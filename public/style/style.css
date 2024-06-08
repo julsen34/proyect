@@ -4,8 +4,12 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f8ff; /* Azul claro */
+    background-color: #ffffff; /* Azul claro */
     display: block;
+}
+
+#inder {
+    text-align: center;
 }
 
 header {

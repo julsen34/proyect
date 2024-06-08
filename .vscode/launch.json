@@ -4,10 +4,17 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "type": "msedge",
             "request": "launch",
             "name": "Open index.html",
+            "file": "C:\\Users\\fuerz\\proyect\\public\\iniciodesecion.html"
+        },
+        {
+            "type": "msedge",
+            "request": "launch",
+            "name": "Open indeswx.html",
             "file": "c:\\Users\\fuerz\\proyect\\public\\inicio.html"
         }
     ]

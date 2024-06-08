@@ -1,7 +1,9 @@
 {
   "name": "app-para-administrar-plantas",
-  "runtimeArgs": ["--experimental-modules"],
-  "version": "0.1.0",
+  "runtimeArgs": [
+    "--experimental-modules"
+  ],
+  "version": "0.6.0",
   "type": "module",
   "description": "Aplicación para administrar el crecimiento de plantas utilizando análisis de imágenes",
   "main": "server/app.mjs",
@@ -11,6 +13,7 @@
   "author": "Julian Hernandez",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "mongoose": "^5.13.22",
     "multer": "^1.4.5-lts.1"
