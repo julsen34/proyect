@@ -1,40 +1,28 @@
-// app.mjs
+// server/app.mjs
 
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
+import pool from './db.js';
 import multer from 'multer';
-import User from './models/user.mjs';
-import { ImageHistory, upload, createImageHistory } from './models/imageHistory.js';
+import { createImageHistory, ImageHistory, upload } from './models/imageHistory.js';
 
 const app = express();
-const port = 5000;
+const port = 3000;
 
-app.use(cors()); 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Conexión a la base de datos MongoDB
-mongoose.connect('mongodb://localhost:27017/plant-db', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => {
-    console.log('Conectado a la base de datos MongoDB');
-    app.listen(port, () => {
-      console.log(`Servidor corriendo en http://localhost:${port}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Error al conectar con la base de datos MongoDB:', error);
-  });
+app.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`);
+});
 
 // Rutas para el historial de imágenes
 app.get('/api/history', async (req, res) => {
   try {
-    const history = await ImageHistory.find().exec();
-    res.json(history);
+    const [rows] = await pool.query('SELECT * FROM image_history');
+    res.json(rows);
   } catch (error) {
     console.error('Error al obtener el historial de imágenes:', error);
     res.status(500).send('Error interno del servidor');
@@ -43,9 +31,9 @@ app.get('/api/history', async (req, res) => {
 
 app.post('/api/history', async (req, res) => {
   try {
-    const newEntry = new ImageHistory(req.body);
-    await newEntry.save();
-    res.status(201).json(newEntry);
+    const { imageSrc, response, date } = req.body;
+    const [result] = await pool.query('INSERT INTO image_history (imageSrc, response, date) VALUES (?, ?, ?)', [imageSrc, response, date]);
+    res.status(201).json({ id: result.insertId, imageSrc, response, date });
   } catch (error) {
     console.error('Error al guardar la entrada en el historial de imágenes:', error);
     res.status(400).send('Solicitud incorrecta');
@@ -86,7 +74,7 @@ app.use((error, req, res, next) => {
 
 // Función para generar la URL del archivo
 function fileURL(file) {
-  return `http://localhost:5000/uploads/${file.filename}`;
+  return `http://localhost:3000/uploads/${file.filename}`;
 }
 
 // Función para analizar la imagen
@@ -94,24 +82,20 @@ async function analyzeImage(fileUrl) {
   // Implementa la lógica de análisis de imágenes aquí
 }
 
-// Ruta para el registro de usuarios
+// server/app.mjs 
+import { findUserByEmail, createUser } from './models/user.mjs';
+
 app.post('/register', async (req, res) => {
   const { nombre, email, password } = req.body;
 
   try {
-    // Verificar si el usuario ya existe en la base de datos
-    const existingUser = await User.findOne({ email });
+    const existingUser = await findUserByEmail(email);
     if (existingUser) {
       return res.status(400).json({ message: 'El usuario ya existe' });
     }
 
-    // Crear una nueva instancia de usuario utilizando el modelo
-    const newUser = new User({ nombre, email, password });
-
-    // Guardar el usuario en la base de datos
-    await newUser.save();
-
-    res.status(201).json({ message: 'Usuario registrado exitosamente' });
+    const userId = await createUser({ nombre, email, password });
+    res.status(201).json({ message: 'Usuario registrado exitosamente', userId });
   } catch (error) {
     console.error('Error al registrar usuario:', error);
     res.status(500).json({ message: 'Error interno del servidor' });

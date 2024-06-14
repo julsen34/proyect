@@ -1,13 +1,15 @@
-// user.mjs
+// server/models/user.mjs
 
-import mongoose from 'mongoose';
+import pool from '../db.js';
 
-const userSchema = new mongoose.Schema({
-  nombre: String,
-  email: { type: String, unique: true },
-  password: String,
-});
+async function findUserByEmail(email) {
+  const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+  return rows[0];
+}
 
-const User = mongoose.model('User', userSchema);
+async function createUser({ nombre, email, password }) {
+  const [result] = await pool.query('INSERT INTO users (nombre, email, password) VALUES (?, ?, ?)', [nombre, email, password]);
+  return result.insertId;
+}
 
-export default User;
+export { findUserByEmail, createUser };
