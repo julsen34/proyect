@@ -1,0 +1,7 @@
+{
+    "require": {
+      "php-ai/php-ml": "^0.10.0",
+      "slim/slim": "^4.10",
+        "vlucas/phpdotenv": "^5.6"
+    }
+  }
