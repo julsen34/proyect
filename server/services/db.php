@@ -14,7 +14,8 @@ class DB {
             $username = $_ENV['DB_USERNAME'];
             $password = $_ENV['DB_PASSWORD'];
 
-            self::$connection = new mysqli($host, $dbname, $username, $password);
+            // Corrige el orden de los parámetros de mysqli
+            self::$connection = new mysqli($host, $username, $password, $dbname);
 
             if (self::$connection->connect_error) {
                 die("Connection failed: " . self::$connection->connect_error);
