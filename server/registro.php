@@ -1,16 +1,16 @@
 <!-- server/registro.php -->
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = $_POST['nombre'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+function registerUser($data) {
+    $nombre = $data['nombre'];
+    $email = $data['email'];
+    $password = password_hash($data['password'], PASSWORD_BCRYPT);
 
     // Conectar a la base de datos
     $conn = new mysqli('localhost', 'usuario', 'contraseña', 'plant-db');
 
     if ($conn->connect_error) {
-        die('Conexión fallida: ' . $conn->connect_error);
+        return ['message' => 'Conexión fallida: ' . $conn->connect_error];
     }
 
     // Verificar si el usuario ya existe
@@ -21,22 +21,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        echo json_encode(['message' => 'El usuario ya existe']);
+        $stmt->close();
+        $conn->close();
+        return ['message' => 'El usuario ya existe'];
     } else {
         $sql = "INSERT INTO users (nombre, email, password) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $nombre, $email, $password);
         if ($stmt->execute()) {
-            // Redirigir al usuario a inicio.html
-            header('Location: proyect-main\server\views\inicio.html');
+            $stmt->close();
+            $conn->close();
+            
+            // Redirigir a la página de inicio
+            header('Location: /ruta/a/inicio.html');
             exit(); // Asegurarse de que el script se detenga después de la redirección
         } else {
-            echo json_encode(['message' => 'Error al registrar usuario']);
+            $stmt->close();
+            $conn->close();
+            return ['message' => 'Error al registrar usuario'];
         }
     }
-
-    $stmt->close();
-    $conn->close();
 }
 ?>
 

@@ -4,11 +4,12 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "chrome",
             "request": "launch",           
             "name": "Open iniciodesecion.html",
-            "file": "c:\\Users\\fuerz\\Downloads\\archivos\\proyect-main\\proyect-main\\server\\views\\iniciodesecion.html"
+            "file": "C:\\xampp\\htdocs\\proyect\\server\\views\\registrarusuario.html",
             "runtimeExecutable": "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe"
         }
     ]
