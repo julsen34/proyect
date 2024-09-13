@@ -63,4 +63,3 @@ $app->get('/imageHistory', function ($request, $response, $args) {
 $app->run();
 ?>
 
-
