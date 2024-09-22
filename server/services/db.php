@@ -18,9 +18,17 @@ class DB {
             self::$connection = new mysqli($host, $username, $password, $dbname);
 
             if (self::$connection->connect_error) {
-                die("Connection failed: " . self::$connection->connect_error);
-            }
+                throw new Exception("Connection failed: " . self::$connection->connect_error);
+            }            
         }
+
+        try {
+            $connection = DB::getConnection();
+            echo "Conexión exitosa a la base de datos.";
+        } catch (Exception $e) {
+            echo "Error en la conexión: " . $e->getMessage();
+        }
+        
 
         return self::$connection;
     }

@@ -3,58 +3,44 @@
 <?php
 
 function uploadImage($uploadedFiles) {
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($uploadedFiles["image"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $directory = __DIR__ . '/../uploads/';
 
-    // Verificar si el archivo es una imagen real
-    $check = getimagesize($uploadedFiles["image"]["tmp_name"]);
-    if ($check !== false) {
-        $uploadOk = 1;
+    if (!file_exists($directory)) {
+        mkdir($directory, 0755, true);
+    }
+
+    $image = $uploadedFiles['imagen'];
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    
+    // Validar tipo de archivo
+    if (!in_array($image->getClientMediaType(), $allowedTypes)) {
+        return ['success' => false, 'message' => 'Solo se permiten archivos de imagen.'];
+    }
+    
+    // Validar tamaño del archivo (5MB)
+    if ($image->getSize() > 5000000) {
+        return ['success' => false, 'message' => 'El archivo es demasiado grande.'];
+    }
+
+    // Guardar el archivo
+    $filename = moveUploadedFile($directory, $image);
+
+    if ($filename) {
+        return [
+            'success' => true,
+            'message' => 'Imagen subida correctamente',
+            'data' => [
+                'imageUrl' => '/uploads/' . $filename
+            ]
+        ];
     } else {
-        return "El archivo no es una imagen.";
+        return ['success' => false, 'message' => 'Error al subir la imagen.'];
     }
+}
 
-    // Verificar si el archivo ya existe
-    if (file_exists($target_file)) {
-        return "El archivo ya existe.";
-    }
-
-    // Verificar el tamaño del archivo
-    if ($uploadedFiles["image"]["size"] > 500000) {
-        return "El archivo es demasiado grande.";
-    }
-
-    // Permitir ciertos formatos de archivo
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-        return "Solo se permiten archivos JPG, JPEG, PNG y GIF.";
-    }
-
-    // Intentar subir el archivo
-    if (move_uploaded_file($uploadedFiles["image"]["tmp_name"], $target_file)) {
-        // Conectar a la base de datos y guardar el historial
-        $conn = new mysqli('localhost', 'usuario', 'contraseña', 'plant-db');
-
-        if ($conn->connect_error) {
-            return 'Conexión fallida: ' . $conn->connect_error;
-        }
-
-        $imageSrc = $target_file;
-        $response = ''; // Ajusta según sea necesario
-        $date = date('Y-m-d H:i:s');
-
-        $sql = "INSERT INTO image_history (imageSrc, response, date) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $imageSrc, $response, $date);
-        $stmt->execute();
-
-        $stmt->close();
-        $conn->close();
-        return "Historial de imagen guardado.";
-    } else {
-        return "Lo siento, hubo un error al subir tu archivo.";
-    }
+function moveUploadedFile($directory, $uploadedFile) {
+    $filename = uniqid() . '_' . $uploadedFile->getClientFilename();
+    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+    return $filename;
 }
 ?>
